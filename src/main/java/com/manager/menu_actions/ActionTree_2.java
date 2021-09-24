@@ -1,6 +1,7 @@
 package com.manager.menu_actions;
 
 import com.manager.dlgTree;
+import com.manager.fractals.CanvasFractalTree_2;
 import javax.swing.JFrame;
 
 /**
@@ -8,14 +9,14 @@ import javax.swing.JFrame;
  *
  * @author manager
  */
-public final class ActionTree implements IAction {
+public final class ActionTree_2 implements IAction {
 
     @Override
     public void Exec(JFrame frame) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                dlgTree dialog = new dlgTree(frame);
+                dlgTree dialog = new dlgTree(frame, new CanvasFractalTree_2());
                 dialog.setVisible(true);
             }
         });

@@ -2,7 +2,8 @@ package com.manager;
 
 import com.manager.menu_actions.ActionAcercaDe;
 import com.manager.menu_actions.ActionSalir;
-import com.manager.menu_actions.ActionTree;
+import com.manager.menu_actions.ActionTree_1;
+import com.manager.menu_actions.ActionTree_2;
 import com.manager.menu_actions.IAction;
 import javax.swing.JFrame;
 
@@ -14,9 +15,10 @@ import javax.swing.JFrame;
 public final class frmAppMenu extends javax.swing.JFrame {
 
     // Atributos para enlazar las opciones del Menu con las acciones
-    IAction actionSalir;
-    IAction actionAcercaDe;
-    IAction actionTree;
+    final IAction actionSalir;
+    final IAction actionAcercaDe;
+    final IAction actionTree_1;
+    final IAction actionTree_2;
 
     /**
      * Creates new form frmAppMenu
@@ -26,7 +28,8 @@ public final class frmAppMenu extends javax.swing.JFrame {
 
         actionSalir = new ActionSalir();
         actionAcercaDe = new ActionAcercaDe();
-        actionTree = new ActionTree();
+        actionTree_1 = new ActionTree_1();
+        actionTree_2 = new ActionTree_2();
 
         final JFrame me = this;
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -51,6 +54,7 @@ public final class frmAppMenu extends javax.swing.JFrame {
         mnuSalir = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         mnuTree = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mnuAcercaDe = new javax.swing.JMenuItem();
@@ -80,7 +84,8 @@ public final class frmAppMenu extends javax.swing.JFrame {
         jMenu3.setText("Fractal");
         jMenu3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        mnuTree.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        mnuTree.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.ALT_MASK));
+        mnuTree.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         mnuTree.setText("Tree");
         mnuTree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,6 +93,16 @@ public final class frmAppMenu extends javax.swing.JFrame {
             }
         });
         jMenu3.add(mnuTree);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jMenuItem1.setText("Tree 2");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
 
         jMenuBar1.add(jMenu3);
 
@@ -122,14 +137,19 @@ public final class frmAppMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuAcercaDeActionPerformed
 
     private void mnuTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTreeActionPerformed
-        actionTree.Exec(this);
+        actionTree_1.Exec(this);
     }//GEN-LAST:event_mnuTreeActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        actionTree_2.Exec(this);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem mnuAcercaDe;
