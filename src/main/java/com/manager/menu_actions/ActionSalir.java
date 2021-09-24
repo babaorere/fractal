@@ -9,16 +9,15 @@ import javax.swing.JFrame;
  */
 public class ActionSalir implements IAction {
 
-    private final JFrame frame;
-
-    public ActionSalir(JFrame frame) {
-        this.frame = frame;
-    }
-
     @Override
-    public void Exec() {
-        frame.setVisible(false);
-        frame.dispose();
+    public void Exec(JFrame frame) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                frame.setVisible(false);
+                frame.dispose();
+            }
+        });
     }
 
 }

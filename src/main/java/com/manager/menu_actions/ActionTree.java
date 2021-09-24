@@ -1,22 +1,21 @@
 package com.manager.menu_actions;
 
-import com.manager.dlgAcercaDe;
+import com.manager.dlgTree;
 import javax.swing.JFrame;
 
 /**
- * Para mostrar la ventana Acerca De, que contiene informacion basica de la aplicacion
+ * Para mostrar la ventana del Fractal. La clase es declarada final, ya que no tiene sentido heredar de ella
  *
  * @author manager
  */
-public class ActionAcercaDe implements IAction {
+public final class ActionTree implements IAction {
 
     @Override
     public void Exec(JFrame frame) {
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                dlgAcercaDe dialog = new dlgAcercaDe(frame);
+                dlgTree dialog = new dlgTree(frame);
                 dialog.setVisible(true);
             }
         });

@@ -1,4 +1,6 @@
-package com.manager.menu_actions;
+package com.manager;
+
+import javax.swing.JFrame;
 
 /**
  * Ventana que muestra informacion basica de la aplicacion
@@ -13,8 +15,9 @@ public class dlgAcercaDe extends javax.swing.JDialog {
      * Creates new form dlgAcercaDe
      *
      * @param parent
+     * @param msg
      */
-    public dlgAcercaDe(java.awt.Frame parent) {
+    public dlgAcercaDe(JFrame parent) {
         super(parent, true);
         initComponents();
     }
@@ -39,7 +42,6 @@ public class dlgAcercaDe extends javax.swing.JDialog {
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 153));
-        jPanel1.setAlignmentX(0.5F);
         jPanel1.setMaximumSize(new java.awt.Dimension(1000, 25));
         jPanel1.setMinimumSize(new java.awt.Dimension(1000, 25));
         jPanel1.setName(""); // NOI18N
