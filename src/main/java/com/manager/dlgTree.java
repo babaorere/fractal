@@ -4,8 +4,7 @@
  */
 package com.manager;
 
-import com.manager.fractals.IFractal;
-import java.awt.Canvas;
+import com.manager.fractals.CanvasFractalModel;
 import javax.swing.JFrame;
 
 /**
@@ -15,42 +14,39 @@ import javax.swing.JFrame;
  */
 public class dlgTree extends javax.swing.JDialog {
 
+    final CanvasFractalModel canvas;
+
     /**
      * Creates new form dlgTree
      *
      * @param parent
      * @param canvas
      */
-    public dlgTree(JFrame parent, Canvas canvas) {
+    public dlgTree(JFrame parent, CanvasFractalModel canvas) {
         super(parent, true);
         initComponents();
 
-//        pnlGraph.getLayout().addLayoutComponent("Canvas", new CanvasFractalTree());
-//        javax.swing.JButton jButton = new javax.swing.JButton();
-//        jButton.setText("TEST");
-//        jButton.setFocusable(false);
-//        jButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-//        jButton.setMaximumSize(new java.awt.Dimension(65, 30));
-//        jButton.setMinimumSize(new java.awt.Dimension(65, 30));
-//        jButton.setPreferredSize(new java.awt.Dimension(65, 30));
-//        jButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-//
-//        pnlGraph.add(jButton, java.awt.BorderLayout.PAGE_START);
-        pnlGraph.add(canvas, java.awt.BorderLayout.CENTER);
-        ((IFractal) canvas).setup(pnlGraph);
+        this.canvas = canvas;
 
-//        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane();
-//        javax.swing.JPanel panel = new javax.swing.JPanel();
-//
-//        panel.setMaximumSize(new java.awt.Dimension(1000, 1000));
-//        panel.setMinimumSize(new java.awt.Dimension(1000, 1000));
-//        panel.setPreferredSize(new java.awt.Dimension(1000, 1000));
-//        panel.setLayout(new java.awt.BorderLayout());
-//        panel.add(new CanvasFractalTree(), java.awt.BorderLayout.CENTER);
-//
-//        scroll.setViewportView(panel);
-//
-//        pnlGraph.add(scroll, java.awt.BorderLayout.CENTER);
+        pnlGraph.add(this.canvas, java.awt.BorderLayout.CENTER);
+        this.canvas.Setup(pnlGraph);
+        lblVel.setText(String.valueOf(100 - CanvasFractalModel.getTpause()));
+        lblAng.setText(String.valueOf(CanvasFractalModel.getInitAngle()));
+        lblDeep.setText(String.valueOf(CanvasFractalModel.getInitDeep()));
+    }
+
+    /**
+     * A los fines de ejecutar las acciones cuando se muestre el dialogo
+     *
+     * @param b
+     */
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+
+        if (b) {
+            canvas.Clear();
+        }
     }
 
     /**
@@ -61,16 +57,21 @@ public class dlgTree extends javax.swing.JDialog {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
+        btnRun = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnVelMenos = new javax.swing.JButton();
+        lblVel = new javax.swing.JLabel();
+        btnVelMas = new javax.swing.JButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0));
+        btnAnguloMenos = new javax.swing.JButton();
+        lblAng = new javax.swing.JLabel();
+        btnAnguloMas = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0));
+        mnuDeepMenos = new javax.swing.JButton();
+        lblDeep = new javax.swing.JLabel();
+        mnuDeepMas = new javax.swing.JButton();
         pnlGraph = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -80,110 +81,150 @@ public class dlgTree extends javax.swing.JDialog {
         jToolBar1.setMaximumSize(new java.awt.Dimension(1000, 25));
         jToolBar1.setMinimumSize(new java.awt.Dimension(100, 25));
 
-        jButton1.setText("RUN");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setMaximumSize(new java.awt.Dimension(65, 30));
-        jButton1.setMinimumSize(new java.awt.Dimension(65, 30));
-        jButton1.setPreferredSize(new java.awt.Dimension(65, 30));
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnClear.setBackground(new java.awt.Color(0, 0, 0));
+        btnClear.setText("CLEAR");
+        btnClear.setFocusable(false);
+        btnClear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClear.setMaximumSize(new java.awt.Dimension(65, 30));
+        btnClear.setMinimumSize(new java.awt.Dimension(65, 30));
+        btnClear.setPreferredSize(new java.awt.Dimension(65, 30));
+        btnClear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnClearActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(btnClear);
+        jToolBar1.add(filler4);
+
+        btnRun.setBackground(new java.awt.Color(0, 102, 0));
+        btnRun.setText("RUN");
+        btnRun.setFocusable(false);
+        btnRun.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRun.setMaximumSize(new java.awt.Dimension(65, 30));
+        btnRun.setMinimumSize(new java.awt.Dimension(65, 30));
+        btnRun.setPreferredSize(new java.awt.Dimension(65, 30));
+        btnRun.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRunActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnRun);
         jToolBar1.add(filler1);
 
-        jButton2.setText("Char -");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setMaximumSize(new java.awt.Dimension(65, 30));
-        jButton2.setMinimumSize(new java.awt.Dimension(65, 30));
-        jButton2.setPreferredSize(new java.awt.Dimension(65, 30));
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnVelMenos.setBackground(new java.awt.Color(153, 153, 255));
+        btnVelMenos.setText("Vel -");
+        btnVelMenos.setFocusable(false);
+        btnVelMenos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnVelMenos.setMaximumSize(new java.awt.Dimension(65, 30));
+        btnVelMenos.setMinimumSize(new java.awt.Dimension(65, 30));
+        btnVelMenos.setPreferredSize(new java.awt.Dimension(65, 30));
+        btnVelMenos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnVelMenos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnVelMenosActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton2);
+        jToolBar1.add(btnVelMenos);
 
-        jButton3.setText("Char +");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setMaximumSize(new java.awt.Dimension(65, 30));
-        jButton3.setMinimumSize(new java.awt.Dimension(65, 30));
-        jButton3.setPreferredSize(new java.awt.Dimension(65, 30));
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton3);
-        jToolBar1.add(filler2);
+        lblVel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblVel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblVel.setMaximumSize(new java.awt.Dimension(30, 30));
+        lblVel.setMinimumSize(new java.awt.Dimension(30, 30));
+        lblVel.setPreferredSize(new java.awt.Dimension(30, 30));
+        jToolBar1.add(lblVel);
 
-        jButton4.setBackground(new java.awt.Color(153, 153, 255));
-        jButton4.setText("Vel -");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setMaximumSize(new java.awt.Dimension(65, 30));
-        jButton4.setMinimumSize(new java.awt.Dimension(65, 30));
-        jButton4.setPreferredSize(new java.awt.Dimension(65, 30));
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnVelMas.setBackground(new java.awt.Color(153, 153, 255));
+        btnVelMas.setText("Vel +");
+        btnVelMas.setFocusable(false);
+        btnVelMas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnVelMas.setMaximumSize(new java.awt.Dimension(65, 30));
+        btnVelMas.setMinimumSize(new java.awt.Dimension(65, 30));
+        btnVelMas.setPreferredSize(new java.awt.Dimension(65, 30));
+        btnVelMas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnVelMas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnVelMasActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton4);
-
-        jButton5.setBackground(new java.awt.Color(255, 102, 102));
-        jButton5.setText("Vel +");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setMaximumSize(new java.awt.Dimension(65, 30));
-        jButton5.setMinimumSize(new java.awt.Dimension(65, 30));
-        jButton5.setPreferredSize(new java.awt.Dimension(65, 30));
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton5);
+        jToolBar1.add(btnVelMas);
         jToolBar1.add(filler3);
 
-        jButton6.setBackground(new java.awt.Color(255, 255, 153));
-        jButton6.setText("Color -");
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setMaximumSize(new java.awt.Dimension(65, 30));
-        jButton6.setMinimumSize(new java.awt.Dimension(65, 30));
-        jButton6.setPreferredSize(new java.awt.Dimension(65, 30));
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnAnguloMenos.setBackground(new java.awt.Color(51, 51, 255));
+        btnAnguloMenos.setText("Angulo -");
+        btnAnguloMenos.setFocusable(false);
+        btnAnguloMenos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAnguloMenos.setMaximumSize(new java.awt.Dimension(75, 30));
+        btnAnguloMenos.setMinimumSize(new java.awt.Dimension(75, 30));
+        btnAnguloMenos.setPreferredSize(new java.awt.Dimension(75, 30));
+        btnAnguloMenos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAnguloMenos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnAnguloMenosActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton6);
+        jToolBar1.add(btnAnguloMenos);
 
-        jButton7.setBackground(new java.awt.Color(153, 255, 153));
-        jButton7.setText("Color +");
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setMaximumSize(new java.awt.Dimension(65, 30));
-        jButton7.setMinimumSize(new java.awt.Dimension(65, 30));
-        jButton7.setPreferredSize(new java.awt.Dimension(65, 30));
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        lblAng.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblAng.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAng.setMaximumSize(new java.awt.Dimension(35, 30));
+        lblAng.setMinimumSize(new java.awt.Dimension(35, 30));
+        lblAng.setPreferredSize(new java.awt.Dimension(35, 30));
+        jToolBar1.add(lblAng);
+
+        btnAnguloMas.setBackground(new java.awt.Color(51, 51, 255));
+        btnAnguloMas.setText("Angulo +");
+        btnAnguloMas.setFocusable(false);
+        btnAnguloMas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAnguloMas.setMaximumSize(new java.awt.Dimension(75, 30));
+        btnAnguloMas.setMinimumSize(new java.awt.Dimension(75, 30));
+        btnAnguloMas.setPreferredSize(new java.awt.Dimension(75, 30));
+        btnAnguloMas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAnguloMas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnAnguloMasActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton7);
+        jToolBar1.add(btnAnguloMas);
+        jToolBar1.add(filler5);
+
+        mnuDeepMenos.setBackground(new java.awt.Color(102, 255, 102));
+        mnuDeepMenos.setText("Deep -");
+        mnuDeepMenos.setFocusable(false);
+        mnuDeepMenos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        mnuDeepMenos.setMaximumSize(new java.awt.Dimension(75, 30));
+        mnuDeepMenos.setMinimumSize(new java.awt.Dimension(75, 30));
+        mnuDeepMenos.setPreferredSize(new java.awt.Dimension(75, 30));
+        mnuDeepMenos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mnuDeepMenos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDeepMenosActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(mnuDeepMenos);
+
+        lblDeep.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblDeep.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDeep.setMaximumSize(new java.awt.Dimension(20, 30));
+        lblDeep.setMinimumSize(new java.awt.Dimension(20, 30));
+        lblDeep.setPreferredSize(new java.awt.Dimension(20, 30));
+        jToolBar1.add(lblDeep);
+
+        mnuDeepMas.setBackground(new java.awt.Color(102, 255, 102));
+        mnuDeepMas.setText("Deep +");
+        mnuDeepMas.setFocusable(false);
+        mnuDeepMas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        mnuDeepMas.setMaximumSize(new java.awt.Dimension(75, 30));
+        mnuDeepMas.setMinimumSize(new java.awt.Dimension(75, 30));
+        mnuDeepMas.setPreferredSize(new java.awt.Dimension(75, 30));
+        mnuDeepMas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mnuDeepMas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDeepMasActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(mnuDeepMas);
 
         getContentPane().add(jToolBar1);
 
@@ -194,46 +235,68 @@ public class dlgTree extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
+        lblVel.setText(String.valueOf(CanvasFractalModel.getMAX_DEEP() - CanvasFractalModel.getTpause()));
+        lblAng.setText(String.valueOf(CanvasFractalModel.getInitAngle()));
+        lblDeep.setText(String.valueOf(CanvasFractalModel.getInitDeep()));
+        canvas.repaint();
+    }//GEN-LAST:event_btnRunActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnVelMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVelMenosActionPerformed
+        canvas.SetVelMenos();
+        lblVel.setText(String.valueOf(CanvasFractalModel.getMAX_DEEP() - CanvasFractalModel.getTpause()));
+    }//GEN-LAST:event_btnVelMenosActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnVelMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVelMasActionPerformed
+        canvas.SetVelMas();
+        lblVel.setText(String.valueOf(CanvasFractalModel.getMAX_DEEP() - CanvasFractalModel.getTpause()));
+    }//GEN-LAST:event_btnVelMasActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnAnguloMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnguloMenosActionPerformed
+        canvas.SetAngMenos();
+        lblAng.setText(String.valueOf(CanvasFractalModel.getInitAngle()));
+    }//GEN-LAST:event_btnAnguloMenosActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnAnguloMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnguloMasActionPerformed
+        canvas.SetAngMas();
+        lblAng.setText(String.valueOf(CanvasFractalModel.getInitAngle()));
+    }//GEN-LAST:event_btnAnguloMasActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        canvas.setClear(true);
+        lblVel.setText(String.valueOf(CanvasFractalModel.getMAX_DEEP() - CanvasFractalModel.getTpause()));
+        lblAng.setText(String.valueOf(CanvasFractalModel.getInitAngle()));
+        lblDeep.setText(String.valueOf(CanvasFractalModel.getInitDeep()));
+        canvas.repaint();
+    }//GEN-LAST:event_btnClearActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void mnuDeepMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDeepMenosActionPerformed
+        canvas.SetDeepMenos();
+        lblDeep.setText(String.valueOf(CanvasFractalModel.getInitDeep()));
+    }//GEN-LAST:event_mnuDeepMenosActionPerformed
+
+    private void mnuDeepMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDeepMasActionPerformed
+        canvas.SetDeepMas();
+        lblDeep.setText(String.valueOf(CanvasFractalModel.getInitDeep()));
+    }//GEN-LAST:event_mnuDeepMasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnguloMas;
+    private javax.swing.JButton btnAnguloMenos;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnRun;
+    private javax.swing.JButton btnVelMas;
+    private javax.swing.JButton btnVelMenos;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lblAng;
+    private javax.swing.JLabel lblDeep;
+    private javax.swing.JLabel lblVel;
+    private javax.swing.JButton mnuDeepMas;
+    private javax.swing.JButton mnuDeepMenos;
     private javax.swing.JPanel pnlGraph;
     // End of variables declaration//GEN-END:variables
 

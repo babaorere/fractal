@@ -15,15 +15,15 @@ import javax.swing.JPanel;
 public abstract class CanvasFractalModel extends Canvas implements IFractal {
 
     /**
+     * Centinela para saber si se esta en proceso de limpieza del canvas
+     */
+    private boolean clear;
+
+    /**
      * Tiempo maximo en pausa, para controlar la velocidad de ejecucion
      *
      */
-    private final static int MAX_SLEEP = 250;
-
-    /**
-     * Utilizado para pasar de Grados a Radianes
-     */
-    private final static double PI_180 = Math.PI / 180.00;
+    private final static int MAX_SLEEP = 100;
 
     /**
      * Maxima profundidad del Arbol
@@ -46,9 +46,14 @@ public abstract class CanvasFractalModel extends Canvas implements IFractal {
     private static int tpause;
 
     /**
+     * Establece la velocidad de ejecucion
+     */
+    private static int initAngle;
+
+    /**
      * Establece la cantidad de niveles del fractal
      */
-    private static int initLevel;
+    private static int initDeep;
 
     /**
      * Utilizado para mantener constante el escalamiento del fractal
@@ -63,40 +68,24 @@ public abstract class CanvasFractalModel extends Canvas implements IFractal {
     private static int[] BLUE = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     public CanvasFractalModel() {
+        clear = false;
         tpause = 0;
-        initLevel = 10;
+        initAngle = 0;
+        initDeep = 5;
         offset = 0;
         panel = null;
         g = null;
     }
 
-    /**
-     * Establece el tiempò de pausa entre la reproduccion de cada parte del fractal
-     *
-     * @param _tpause
-     */
     @Override
-    public void setVel(final int _tpause) {
-        if (_tpause >= 0 && _tpause <= getMAX_SLEEP()) {
-            setTpause(_tpause);
-        }
-    }
-
-    @Override
-    public void setDeep(final int _initlevel) {
-        if (_initlevel >= 1 && _initlevel <= getMAX_DEEP()) {
-            setInitLevel(_initlevel);
-        }
-    }
-
-    @Override
-    public void setup(final JPanel panel) {
+    public void Setup(final JPanel panel) {
         this.setPanel(panel);
     }
 
     @Override
-    public void clear() {
-        getG().setColor(Color.black);
+    public void Clear() {
+        setBackground(Color.BLACK);
+        getG().setColor(Color.BLACK);
         getG().fillRect(0, 0, getPanel().getWidth(), getPanel().getHeight());
     }
 
@@ -105,13 +94,6 @@ public abstract class CanvasFractalModel extends Canvas implements IFractal {
      */
     public static int getMAX_SLEEP() {
         return MAX_SLEEP;
-    }
-
-    /**
-     * @return the PI_180
-     */
-    public static double getPI_180() {
-        return PI_180;
     }
 
     /**
@@ -157,24 +139,40 @@ public abstract class CanvasFractalModel extends Canvas implements IFractal {
     }
 
     /**
+     * Validar y establece el tiempo de pausa entre la reproduccion de cada parte del fractal
+     *
      * @param aTpause the tpause to set
      */
     public static void setTpause(int aTpause) {
-        tpause = aTpause;
+        if (aTpause < 0) {
+            tpause = 0;
+        } else if (aTpause > MAX_SLEEP) {
+            tpause = MAX_SLEEP;
+        } else {
+            tpause = aTpause;
+        }
     }
 
     /**
      * @return the initLevel
      */
-    public static int getInitLevel() {
-        return initLevel;
+    public static int getInitDeep() {
+        return initDeep;
     }
 
     /**
+     * Validar y establecer el initLevel
+     *
      * @param aInitLevel the initLevel to set
      */
-    public static void setInitLevel(int aInitLevel) {
-        initLevel = aInitLevel;
+    public static void setInitDeep(int aInitLevel) {
+        if (aInitLevel <= 0) {
+            initDeep = 1;
+        } else if (aInitLevel > MAX_DEEP) {
+            initDeep = MAX_DEEP;
+        } else {
+            initDeep = aInitLevel;
+        }
     }
 
     /**
@@ -185,10 +183,18 @@ public abstract class CanvasFractalModel extends Canvas implements IFractal {
     }
 
     /**
+     * Validar y establecer el offset
+     *
      * @param aOffset the offset to set
      */
     public static void setOffset(int aOffset) {
-        offset = aOffset;
+        if (aOffset < 0) {
+            offset = 0;
+        } else if (aOffset > (MAX_DEEP - 1)) {
+            offset = MAX_DEEP - 1;
+        } else {
+            offset = aOffset;
+        }
     }
 
     /**
@@ -217,6 +223,88 @@ public abstract class CanvasFractalModel extends Canvas implements IFractal {
      */
     public static int[] getBLUE() {
         return BLUE;
+    }
+
+    /**
+     * @return the clear
+     */
+    public boolean isClear() {
+        return clear;
+    }
+
+    /**
+     * @param clear the clear to set
+     */
+    public void setClear(boolean clear) {
+        this.clear = clear;
+    }
+
+    /**
+     * Disminuye la velocidad de ejecucion
+     */
+    @Override
+    public void SetVelMenos() {
+        // A mayor tpause, menor velocidad
+        setTpause(getTpause() + 5);
+        repaint();
+    }
+
+    /**
+     * Aumenta la velocidad de ejecucion
+     */
+    @Override
+    public void SetVelMas() {
+        // A menor tpause, mayor velocidad
+        setTpause(getTpause() - 5);
+        repaint();
+    }
+
+    @Override
+    public void SetAngMenos() {
+        setInitAngle(getInitAngle() - 5);
+        repaint();
+    }
+
+    @Override
+    public void SetAngMas() {
+        setInitAngle(getInitAngle() + 5);
+        repaint();
+    }
+
+    /**
+     * Disminuye la profundidad del Fractal
+     */
+    @Override
+    public void SetDeepMenos() {
+        setInitDeep(getInitDeep() - 1);
+        repaint();
+    }
+
+    /**
+     * Aumenta la profundidad del Fractal
+     */
+    @Override
+    public void SetDeepMas() {
+        setInitDeep(getInitDeep() + 1);
+        repaint();
+    }
+
+    /**
+     * Retornar el angulo inicial del fractal
+     *
+     * @return the initAngle
+     */
+    public static int getInitAngle() {
+        return initAngle;
+    }
+
+    /**
+     * Validad y establecer el angulo inicial del fractal
+     *
+     * @param aInitAngle the initAngle to set
+     */
+    public static void setInitAngle(int aInitAngle) {
+        initAngle = aInitAngle % 360;
     }
 
 }

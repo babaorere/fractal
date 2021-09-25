@@ -15,18 +15,52 @@ import javax.swing.JPanel;
  */
 public interface IFractal {
 
-    public void setVel(final int vel);
+    /**
+     * Establece las condiciones iniciales del fractal
+     *
+     * @param panel
+     */
+    public void Setup(final JPanel panel);
 
-    public void setDeep(final int _level);
+    /**
+     * Limpia la zona grafica
+     */
+    public void Clear();
 
-    public void setup(final JPanel panel);
-
-    public void clear();
-
-    public void draw();
-
-    public void DefaultValues();
+    /**
+     * Aqui se activa la recursividad, en las clases que lo implementen
+     */
+    public void Draw();
 
     public void paint(Graphics g);
+
+    /**
+     * Disminuye la velocidad de ejecucion
+     */
+    public void SetVelMenos();
+
+    public void SetVelMas();
+
+    /**
+     * Disminuye el angulo inicial del fractal
+     */
+    public void SetAngMenos();
+
+    /**
+     * Aumenta el angulo inicial del Fractal
+     */
+    public void SetAngMas();
+
+    /**
+     * Disminuye la profundidad del Fractal
+     */
+    public void SetDeepMenos();
+
+    /**
+     * Aumenta la profundidad del Fractal
+     */
+    public void SetDeepMas();
+
+    public void DefaultValues();
 
 }
